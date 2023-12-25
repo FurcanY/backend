@@ -1,11 +1,7 @@
 var mongoose=require("mongoose");
 var Venue=mongoose.model("venue");
 
-const createResponse=function(res,status,content)
-{
-    res.status(status).json(content);
 
-};
 var converter=(function(){
     var earthRadius=6371;
     var radian2Kilometer=function(radian){
@@ -19,6 +15,11 @@ var converter=(function(){
         kilometer2radian,
     };
 })();
+const createResponse=function(res,status,content)
+{
+    res.status(status).json(content);
+
+};
 const listVenues=async function(req,res){
     var lat= parseFloat(req.query.lat);
     var long= parseFloat(req.query.long);
