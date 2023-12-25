@@ -1,14 +1,17 @@
 var mongoose=require("mongoose");
-var Venue =mongoose.model("venue");
+var Venue=mongoose.model("venue");
 
-const createResponse=function(res,status,content){
+const createResponse=function(res,status,content)
+{
     res.status(status).json(content);
-}
-
+};
 const addComment=function(req,res){
     createResponse(res,200,{"status":"Başarılı"});
-}
-const getComments= async function(req,res){
+};
+const deleteComment=function(req,res){
+    createResponse(res,200,{"status":"Başarılı"});
+};
+const getComment=async function(req,res){
     try{
         await Venue.findById(req.params.venueid)
         .select("name comments")
@@ -17,16 +20,15 @@ const getComments= async function(req,res){
             var response,comment;
             if(!venue){
                 createResponse(res,404,{
-                    status:"venueid bulunamadı",
-
+                    status:"venuid bulunamadı",
                 });
                 return;
             }
-            else if(venue.comments && venue.comments.length >0){
+            else if(venue.comments && venue.comments.length>0){
                 comment=venue.comments.id(req.params.commentid);
                 if(!comment){
                     createResponse(res,404,{
-                        status:"commentid bulunamadı",
+                        status:"venuid bulunamadı",
                     });
                 }
                 else{
@@ -42,27 +44,24 @@ const getComments= async function(req,res){
             }
             else{
                 createResponse(res,404,{
-                    status:"Hiç Yorum yok"
+                    status:"Hiç Yorum Yok",
                 });
             }
         });
-
-    }catch(error){
-        createResponse(res,404,{
-            status:"venueid bulumadı",
-        });
     }
-    
+        catch(error){
+            createResponse(res,404,{
+                status:"venuid bulunamadı",
+            });
+        }
+    };
+const updateComment=function(req,res){
+    createResponse(res,200,{"status":"Başarılı"});
 };
-const updateComments=function(req,res){
-    createResponse(res,200,{"status":"Başarılı"});
-}
-const deleteComments=function(req,res){
-    createResponse(res,200,{"status":"Başarılı"});
-}
+
 module.exports={
     addComment,
-    deleteComments,
-    updateComments,
-    getComments
+    deleteComment,
+    getComment,
+    updateComment,
 }
